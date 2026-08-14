@@ -179,7 +179,7 @@ def build_tree() -> Tree:
     root_label = Text()
     root_label.append("🗂️  ", style="bold")
     root_label.append(project_name, style="bold bright_white")
-    root_label.append("  —  Agentic RAG (from scratch)", style="dim white")
+    root_label.append("  —  Agentic RAG (https://github.com/Shreyas8668/Agentic-rag-project-.git)", style="dim white")
 
     tree = Tree(root_label, guide_style="bold bright_blue")
 
