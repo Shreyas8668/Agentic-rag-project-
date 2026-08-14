@@ -1,0 +1,30 @@
+# TOPIC: agents
+# DATE: 2024-02-01
+# TITLE: Agentic RAG and Autonomous Loops
+
+What is Agentic RAG?
+Agentic RAG extends basic RAG by adding an autonomous agent loop.
+Instead of a single retrieve-then-generate step, the agent can:
+  - Decide whether retrieval is even needed.
+  - Issue multiple retrieval queries to gather more evidence.
+  - Reflect on retrieved information and decide if it is sufficient.
+  - Use additional tools (calculators, web search, code execution) if needed.
+  - Iterate until it is confident in its answer.
+
+The Agent Loop (Think → Act → Observe):
+  1. Think   – The agent reads the question and its memory, then plans the next action.
+  2. Act     – The agent calls a tool (e.g., search_knowledge_base).
+  3. Observe – The agent reads the tool result and updates its scratchpad.
+  4. Repeat  – Steps 1-3 repeat until the agent decides it has enough information.
+  5. Answer  – The agent generates a final answer from accumulated evidence.
+
+Memory in Agentic Systems:
+  - Short-term memory: the conversation history within a single session.
+  - Long-term memory: a persistent vector store of past interactions.
+  - Scratchpad: temporary working notes the agent writes during the reasoning loop.
+
+Tools in Agentic RAG:
+Tools are functions the agent can call to interact with the world.
+Examples:
+  - search_knowledge_base(query, topic) → returns top-K relevant chunks (with optional metadata filter)
+  - summarize(text)                     → returns a shorter version of a long text

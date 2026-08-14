@@ -1,0 +1,85 @@
+# =============================================================================
+# documents/sample.txt
+# -----------------------------------------------------------------------------
+# This is the "knowledge base" for our Agentic RAG system.
+# In a real system you would have PDFs, web pages, databases, etc.
+# For learning purposes we use a plain text file covering AI/RAG concepts.
+# =============================================================================
+
+What is Retrieval-Augmented Generation (RAG)?
+RAG is a technique that combines a retrieval system with a large language model.
+Instead of relying only on what the LLM learned during training, RAG first searches
+a knowledge base for relevant information, then passes that information to the LLM
+so it can give a grounded, factual answer.
+
+The RAG Pipeline has three main stages:
+1. Indexing   – Documents are chunked and converted to vector embeddings, then stored in a vector database.
+2. Retrieval  – When a query arrives, it is embedded and the most similar chunks are fetched.
+3. Generation – The retrieved chunks are injected into the LLM prompt as context, and the LLM generates an answer.
+
+What is Agentic RAG?
+Agentic RAG extends basic RAG by adding an autonomous agent loop.
+Instead of a single retrieve-then-generate step, the agent can:
+  - Decide whether retrieval is even needed.
+  - Issue multiple retrieval queries to gather more evidence.
+  - Reflect on retrieved information and decide if it is sufficient.
+  - Use additional tools (calculators, web search, code execution) if needed.
+  - Iterate until it is confident in its answer.
+
+The Agent Loop (Think → Act → Observe):
+  1. Think   – The agent reads the question and its memory, then plans the next action.
+  2. Act     – The agent calls a tool (e.g., search_knowledge_base).
+  3. Observe – The agent reads the tool result and updates its scratchpad.
+  4. Repeat  – Steps 1-3 repeat until the agent decides it has enough information.
+  5. Answer  – The agent generates a final answer from accumulated evidence.
+
+Vector Embeddings:
+An embedding is a list of floating-point numbers (a vector) that represents the
+semantic meaning of a piece of text. Sentences with similar meanings have vectors
+that are close together in high-dimensional space. We measure closeness using
+cosine similarity or dot product.
+
+FAISS (Facebook AI Similarity Search):
+FAISS is a library for efficient similarity search over large collections of vectors.
+It can search millions of vectors in milliseconds. We use the flat (brute-force)
+index for small datasets, which computes exact distances.
+
+Chunking Strategy:
+Long documents must be split into smaller chunks before embedding, because:
+  - LLMs have a limited context window.
+  - Smaller chunks produce more focused embeddings.
+Common strategies: fixed-size sliding window, sentence-based, recursive character split.
+Overlap between consecutive chunks helps preserve context at chunk boundaries.
+
+Sentence Transformers:
+Sentence Transformers are neural networks fine-tuned to produce semantically
+meaningful embeddings. The model "all-MiniLM-L6-v2" is a popular choice because
+it is small (80MB), fast, and produces 384-dimensional embeddings.
+
+Memory in Agentic Systems:
+  - Short-term memory: the conversation history within a single session.
+  - Long-term memory: a persistent vector store of past interactions.
+  - Scratchpad: temporary working notes the agent writes during the reasoning loop.
+
+Tools in Agentic RAG:
+Tools are functions the agent can call to interact with the world.
+Examples:
+  - search_knowledge_base(query) → returns top-K relevant chunks
+  - summarize(text)              → returns a shorter version of a long text
+  - calculate(expression)        → evaluates a math expression
+  - web_search(query)            → fetches results from the internet
+
+LLM Abstraction:
+A good Agentic RAG system wraps the LLM behind an interface so you can swap
+between providers (OpenAI, Anthropic, local Ollama) without changing other code.
+
+Hallucination and Grounding:
+Without RAG, LLMs sometimes "hallucinate" — confidently stating false facts.
+RAG grounds the LLM in retrieved evidence, reducing hallucination significantly.
+The agent can also be prompted to cite its sources (which chunks it used).
+
+Evaluation of RAG Systems:
+  - Faithfulness: does the answer stick to the retrieved context?
+  - Answer Relevance: does the answer address the question?
+  - Context Precision: are the retrieved chunks actually relevant?
+  - Context Recall: did we retrieve all necessary information?

@@ -1,0 +1,26 @@
+# TOPIC: ml
+# DATE: 2024-02-20
+# TITLE: Embeddings, Vector Stores, and Chunking
+
+Vector Embeddings:
+An embedding is a list of floating-point numbers (a vector) that represents the
+semantic meaning of a piece of text. Sentences with similar meanings have vectors
+that are close together in high-dimensional space. We measure closeness using
+cosine similarity or dot product.
+
+FAISS (Facebook AI Similarity Search):
+FAISS is a library for efficient similarity search over large collections of vectors.
+It can search millions of vectors in milliseconds. We use the flat (brute-force)
+index for small datasets, which computes exact distances.
+
+Chunking Strategy:
+Long documents must be split into smaller chunks before embedding, because:
+  - LLMs have a limited context window.
+  - Smaller chunks produce more focused embeddings.
+Common strategies: fixed-size sliding window, sentence-based, recursive character split.
+Overlap between consecutive chunks helps preserve context at chunk boundaries.
+
+Sentence Transformers:
+Sentence Transformers are neural networks fine-tuned to produce semantically
+meaningful embeddings. The model "all-MiniLM-L6-v2" is a popular choice because
+it is small (80MB), fast, and produces 384-dimensional embeddings.

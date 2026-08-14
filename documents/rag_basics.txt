@@ -1,0 +1,19 @@
+# TOPIC: basics
+# DATE: 2024-01-15
+# TITLE: Introduction to RAG Architecture
+
+What is Retrieval-Augmented Generation (RAG)?
+RAG is a technique that combines a retrieval system with a large language model.
+Instead of relying only on what the LLM learned during training, RAG first searches
+a knowledge base for relevant information, then passes that information to the LLM
+so it can give a grounded, factual answer.
+
+The RAG Pipeline has three main stages:
+1. Indexing   – Documents are chunked and converted to vector embeddings, then stored in a vector database.
+2. Retrieval  – When a query arrives, it is embedded and the most similar chunks are fetched.
+3. Generation – The retrieved chunks are injected into the LLM prompt as context, and the LLM generates an answer.
+
+Hallucination and Grounding:
+Without RAG, LLMs sometimes "hallucinate" — confidently stating false facts.
+RAG grounds the LLM in retrieved evidence, reducing hallucination significantly.
+The agent can also be prompted to cite its sources.
